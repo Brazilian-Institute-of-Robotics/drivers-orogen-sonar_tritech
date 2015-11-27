@@ -46,7 +46,7 @@ task_context "Micron" do
     property('acquisition_timeout', '/base/Time')
 
     # The sonar readings
-    output_port("sonar_beam","base::samples::SonarBeam")
+    output_port("beam_samples","base::samples::SonarBeam")
 
     # The expected time between two readings from the DST EchoSounder connected
     # to the aux port. Set to 0 if there is none connected
