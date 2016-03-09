@@ -1,0 +1,55 @@
+--- name:default
+# The timeout for receiving head data
+#
+# The Micron is a request/receive device. I.e. this component must send a
+# request to acquire data, and receives it. While a request is "in flight",
+# one should not re-request data.
+#
+# This parameter tells the component at which point it should assume that it
+# won't receive the head data it is expecting, and should re-request a new
+# acquisition. This is used to account for e.g. errors on the communication
+# line.
+#
+# It defaults to one second
+acquisition_timeout:
+  microseconds: 0
+# The sonar configuration
+config:
+  left_limit:
+    rad: 0
+  right_limit:
+    rad: 0
+  angular_resolution:
+    rad: 0.00490873852
+  max_distance: 10.0
+  min_distance: 0.25
+  resolution: 0.025
+  speed_of_sound: 1490.0
+  gain: 0.4
+  low_resolution: false
+  continous: true
+  invert: false
+# The timeout to configure the sonar, in seconds
+#
+# It is required to have a special timeout there as it takes longer for the
+# sonar to start spinning its motor
+configure_timeout: 10.0
+# The expected time between two readings from the DST EchoSounder connected
+# to the aux port. Set to 0 if there is none connected
+echo_sounder_timeout: 0.0
+# The ground frame for the data produced in the ground_distance port
+ground_frame: echosounder_frame
+# The device address. It can either be serial://PATH[:baudrate],
+# udp://IP_OR_HOSTNAME[:PORT] or tcp://IP_OR_HOSTNAME[:PORT]. Leave empty if
+# you mean to use the io_raw_in and io_raw_out ports.
+io_port: 'serial:///dev/port_micron_front:115200'
+# The timeout on read. Defaults to one second
+io_read_timeout:
+  microseconds: 1000000
+# The interval at which the status port should be written. Defaults to one
+# second
+io_status_interval:
+  microseconds: 1000000
+# The timeout on write. Defaults to one second. Used only in direct I/O mode
+io_write_timeout:
+  microseconds: 1000000
