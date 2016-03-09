@@ -74,6 +74,11 @@ void Micron::processIO()
         base::samples::SonarBeam sonar_beam;
         micron.decodeSonarBeam(sonar_beam);
         _sonar_beam.write(sonar_beam);
+
+        // new code
+        base::samples::Sonar sonar(sonar_beam);
+        _sonar_samples.write(sonar);
+
         micron.requestData();
         timeoutAcquisition.restart();
     }

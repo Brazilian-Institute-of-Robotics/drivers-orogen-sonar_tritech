@@ -4,6 +4,7 @@
 #include "sonar_tritech/SeaNetMicron.hpp"
 #include "sonar_tritech/MicronBase.hpp"
 #include <iodrivers_base/Timeout.hpp>
+#include <base/samples/Sonar.hpp>
 
 namespace sonar_tritech 
 {
