@@ -7,7 +7,6 @@ Micron::Micron(std::string const& name)
 {
 }
 
-
 bool Micron::setConfig(::sea_net::MicronConfig const & value)
 {
     // Need to read the pending data packet first
@@ -78,6 +77,10 @@ void Micron::processIO()
         // new code
         base::samples::Sonar sonar(sonar_beam);
         _sonar_samples.write(sonar);
+
+        // do not merge (just to record logs)
+        _sonar_range.write(_config.get().max_distance);
+        _sonar_gain.write(_config.get().gain * 100);
 
         micron.requestData();
         timeoutAcquisition.restart();

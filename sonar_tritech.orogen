@@ -59,6 +59,10 @@ task_context "Micron" do
     # The current ground distance if a Micron DST EchoSounder is connected to
     # the aux port
     output_port("ground_distance", "base::samples::RigidBodyState")
+
+    # Sonar range and gain (just to record logs)
+    output_port("sonar_range", "double")
+    output_port("sonar_gain", "int")
 	
     exception_states :INVALID_CONFIGURATION, :ECHO_SOUNDER_TIMEOUT
     fd_driven
