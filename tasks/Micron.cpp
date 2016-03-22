@@ -71,9 +71,13 @@ void Micron::processIO()
     sea_net::PacketType packet_type = micron.readPacket(_io_read_timeout.get().toMilliseconds());
     if (packet_type == sea_net::mtHeadData)
     {
-        base::samples::SonarBeam sonar_beam;
-        micron.decodeSonarBeam(sonar_beam);
-        _sonar_beam.write(sonar_beam);
+        base::samples::Sonar sonar;
+        micron.decodeSonar(sonar);
+        _sonar_samples.write(sonar);
+
+        base::samples::SonarBeam beam = sonar.toSonarBeam();
+        _sonar_beam.write(beam);
+
         micron.requestData();
         timeoutAcquisition.restart();
     }
