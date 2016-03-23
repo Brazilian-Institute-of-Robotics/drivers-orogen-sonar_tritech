@@ -30,7 +30,7 @@ Orocos.run 'sonar_tritech::Micron' => 'micron' do
   
   sonar_gui.connect(SIGNAL('gainChanged(int)')) do |value|
     config = micron.config
-    config.max_distance = value / 100.0
+    config.gain = value / 100.0
     micron.config = config
   end
   
