@@ -34,8 +34,13 @@ Orocos.run 'sonar_tritech::Micron' => 'micron' do
     micron.config = config
   end
   
+  ## Check if the continuous property was changed
+  Orocos::Async.proxy(micron).property("config").on_change do |config|
+    sonar_gui.setSectorScan(micron.config.continous, micron.config.left_limit, micron.config.right_limit)
+  end
+
   ## Connect SonarWidget with Micron ##
-  micron.sonar_samples.connect_to sonar_gui
+  Orocos::Async.proxy(micron).port("sonar_samples").connect_to sonar_gui
   
   ## Start the task ##
   micron.start
