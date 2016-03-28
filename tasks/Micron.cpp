@@ -15,6 +15,7 @@ bool Micron::setConfig(::sea_net::MicronConfig const & value)
         micron.receiveData(_io_read_timeout.get().toMilliseconds());
 
     micron.configure(value, _configure_timeout.get()*1000);
+    micron.requestData();
 
     //Call the base function, DO-NOT Remove
     return(sonar_tritech::MicronBase::setConfig(value));
