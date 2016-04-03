@@ -10,12 +10,19 @@ Micron::Micron(std::string const& name)
 
 bool Micron::setConfig(::sea_net::MicronConfig const & value)
 {
+    bool needs_request = false;
+
     // Need to read the pending data packet first
-    if (micron.hasPendingData())
+    if (micron.hasPendingData()) {
         micron.receiveData(_io_read_timeout.get().toMilliseconds());
+        needs_request = true;
+    }
 
     micron.configure(value, _configure_timeout.get()*1000);
-    micron.requestData();
+
+    // Start pulling
+    if (needs_request)
+        micron.requestData();
 
     //Call the base function, DO-NOT Remove
     return(sonar_tritech::MicronBase::setConfig(value));
