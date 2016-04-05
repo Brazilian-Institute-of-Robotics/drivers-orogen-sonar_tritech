@@ -10,11 +10,19 @@ Micron::Micron(std::string const& name)
 
 bool Micron::setConfig(::sea_net::MicronConfig const & value)
 {
+    bool needs_request = false;
+
     // Need to read the pending data packet first
-    if (micron.hasPendingData())
+    if (micron.hasPendingData()) {
         micron.receiveData(_io_read_timeout.get().toMilliseconds());
+        needs_request = true;
+    }
 
     micron.configure(value, _configure_timeout.get()*1000);
+
+    // Start pulling
+    if (needs_request)
+        micron.requestData();
 
     //Call the base function, DO-NOT Remove
     return(sonar_tritech::MicronBase::setConfig(value));
@@ -71,9 +79,13 @@ void Micron::processIO()
     sea_net::PacketType packet_type = micron.readPacket(_io_read_timeout.get().toMilliseconds());
     if (packet_type == sea_net::mtHeadData)
     {
-        base::samples::SonarBeam sonar_beam;
-        micron.decodeSonarBeam(sonar_beam);
-        _sonar_beam.write(sonar_beam);
+        base::samples::Sonar sonar;
+        micron.decodeSonar(sonar);
+        _sonar_samples.write(sonar);
+
+        base::samples::SonarBeam beam = sonar.toSonarBeam();
+        _sonar_beam.write(beam);
+
         micron.requestData();
         timeoutAcquisition.restart();
     }
