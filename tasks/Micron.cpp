@@ -35,7 +35,7 @@ bool Micron::configureHook()
     if (!_port.value().empty())
         micron.openSerial(_port.value(), _baudrate.value());
     else if (!_io_port.value().empty())
-        micron.openURI(_io_port);
+        micron.openURI(_io_port.value());
     setDriver(&micron);
 
     if (!MicronBase::configureHook())
@@ -126,4 +126,3 @@ void Micron::cleanupHook()
 {
     MicronBase::cleanupHook();
 }
-

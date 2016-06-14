@@ -26,7 +26,8 @@ echo_sounder_timeout: 0.0
 # The ground frame for the data produced in the ground_distance port
 ground_frame: echosounder_frame
 # The device address
-io_port: ''
+# io_port: ''
+io_port: 'tcp://192.168.42.5:49154'
 # The timeout on read. Defaults to one second
 io_read_timeout:
   microseconds: 1000000
@@ -37,4 +38,4 @@ io_status_interval:
 # The timeout on write. Defaults to one second. Used only in direct I/O mode
 io_write_timeout:
   microseconds: 1000000
-io_port: 'serial:///dev/ttyUSB0:115200'
+#io_port: 'serial:///dev/ttyUSB0:115200'
