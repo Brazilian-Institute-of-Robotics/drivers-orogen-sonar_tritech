@@ -43,6 +43,8 @@ bool Micron::configureHook()
 
     micron.configure(_config.get(), _configure_timeout.get()*1000);
 
+    sleep(1);
+
     //check if full duplex is set
     //if not the user has to set it via tritech software
     if(!micron.isFullDuplex(1000))
@@ -119,11 +121,15 @@ void Micron::updateHook()
 
 void Micron::stopHook()
 {
+    // Need to read the pending data packet first
+    if (micron.hasPendingData()) {
+        micron.receiveData(_io_read_timeout.get().toMilliseconds());
+    }
     MicronBase::stopHook();
 }
 
 void Micron::cleanupHook()
 {
+    micron.close();
     MicronBase::cleanupHook();
 }
-
