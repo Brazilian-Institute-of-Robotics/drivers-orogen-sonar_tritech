@@ -5,7 +5,7 @@
 #include "sonar_tritech/MicronBase.hpp"
 #include <iodrivers_base/Timeout.hpp>
 
-namespace sonar_tritech 
+namespace sonar_tritech
 {
     class Micron : public MicronBase
     {
@@ -13,10 +13,10 @@ namespace sonar_tritech
         /* Dynamic Property setter of config
          */
         virtual bool setConfig(::sea_net::MicronConfig const & value);
-    
+
     public:
         Micron(std::string const& name = "sonar_tritech::Micron");
-	
+
         /** This hook is called by Orocos when the state machine transitions
          * from PreOperational to Stopped. If it returns false, then the
          * component will stay in PreOperational. Otherwise, it goes into
@@ -46,7 +46,7 @@ namespace sonar_tritech
          *
          * The warning(), error() and fatal() calls, when called in this hook,
          * allow to get into the associated RunTimeWarning, RunTimeError and
-         * FatalError states. 
+         * FatalError states.
          *
          * In the first case, updateHook() is still called, and recovered()
          * allows you to go back into the Running state.  In the second case,
@@ -63,7 +63,7 @@ namespace sonar_tritech
          void processIO();
 
          void processEchoSounderPacket();
-        
+
 
         /** This hook is called by Orocos when the component is in the
          * RunTimeError state, at each activity step. See the discussion in
@@ -95,4 +95,3 @@ namespace sonar_tritech
 }
 
 #endif
-

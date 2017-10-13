@@ -1,3 +1,4 @@
+#include "sonar_tritech/Exceptions.hpp"
 #include "Micron.hpp"
 
 using namespace sonar_tritech;
@@ -81,15 +82,24 @@ void Micron::processIO()
     sea_net::PacketType packet_type = micron.readPacket(_io_read_timeout.get().toMilliseconds());
     if (packet_type == sea_net::mtHeadData)
     {
-        base::samples::Sonar sonar;
-        micron.decodeSonar(sonar);
-        _sonar_samples.write(sonar);
+        try {
+            base::samples::Sonar sonar;
+            micron.decodeSonar(sonar);
+            _sonar_samples.write(sonar);
 
-        base::samples::SonarBeam beam = sonar.toSonarBeam();
-        _sonar_beam.write(beam);
+            base::samples::SonarBeam beam = sonar.toSonarBeam();
+            _sonar_beam.write(beam);
 
-        micron.requestData();
-        timeoutAcquisition.restart();
+            micron.requestData();
+            timeoutAcquisition.restart();
+        }
+        catch (sea_net::MotorLostSyncException ex) {
+            RTT::log(RTT::Info) << ex.what()  << " Reconfiguring device..." << RTT::endlog();
+            micron.configure(_config.get(), _configure_timeout.get()*1000);
+            micron.requestData();
+            micron.receiveData(1000);
+            timeoutAcquisition.restart();
+        }
     }
     else if (packet_type == sea_net::mtAuxData)
     {
