@@ -16,16 +16,6 @@ task_context "Micron" do
     property("config", "sea_net::MicronConfig").
         dynamic
 
-    # The device's serial port (i.e. /dev/ttyS1)
-    #
-    # This is deprecated. iodrivers_base::Task's io_port property should be used
-    # instead
-    property 'port', '/std/string'
-    # The device's serial baud rate (i.e. /dev/ttyS1)
-    #
-    # This is deprecated. iodrivers_base::Task's io_port property should be used
-    # instead
-    property 'baudrate', 'int', 115200
     # The timeout to configure the sonar, in seconds
     #
     # It is required to have a special timeout there as it takes longer for the
@@ -57,7 +47,7 @@ task_context "Micron" do
     # The current ground distance if a Micron DST EchoSounder is connected to
     # the aux port
     output_port("ground_distance", "base::samples::RigidBodyState")
-	
+
     exception_states :INVALID_CONFIGURATION, :ECHO_SOUNDER_TIMEOUT
     fd_driven
 end
@@ -67,14 +57,14 @@ task_context "Echosounder" do
                 doc "Current Ground Distance"
 
         property('ground_frame','/std/string','echosounder_frame')
-	
+
         property('port', '/std/string', "").
             doc 'the device port'
         property('baudrate', 'int', 115200)
 
         property('echo_sounder_timeout', 'double', 1.0).
             doc "timeout for the dst micron dst echo sounder."
-	
+
         fatal_states :IO_ERROR
 
 	needs_configuration
@@ -99,7 +89,7 @@ task_context "Profiling" do
 
     # The received sonar data
     output_port "profiling_scan", "base::samples::LaserScan"
-	
+
     # The device's serial port (i.e. /dev/ttyS1)
     #
     # This is deprecated. iodrivers_base::Task's io_port property should be used
@@ -130,7 +120,7 @@ task_context "Profiling" do
     #
     # It defaults to one second
     property('acquisition_timeout', '/base/Time')
-        
+
     exception_states :INVALID_CONFIGURATION
 
     fd_driven

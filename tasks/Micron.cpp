@@ -33,9 +33,7 @@ bool Micron::configureHook()
 {
     micron.clear();
 
-    if (!_port.value().empty())
-        micron.openSerial(_port.value(), _baudrate.value());
-    else if (!_io_port.value().empty())
+    if (!_io_port.value().empty())
         micron.openURI(_io_port.value());
     setDriver(&micron);
 
